@@ -1,11 +1,20 @@
+import dotenv from 'dotenv'
 import express from 'express'
+import cors from 'cors'
+import bodyParser from 'body-parser'
+import { bootstrap } from './src/bootsrap.js';
+import { dbConnection } from './Database/dbConnection.js';
+
+dotenv.config()
 const app = express();
-const port = 5000;
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+app.use(cors())
+app.use(bodyParser.json())
 
-app.listen(port, () => {
-  console.log(`App listening on port ${port}`);
+bootstrap(app)
+dbConnection()
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
 });
